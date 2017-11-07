@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        body, ul, ol, li, img {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        #box {
+            width: 490px;
+            height: 170px;
+            padding: 5px;
+            position: relative;
+            border: 1px solid #ccc;
+            margin: 100px auto 0;
+            overflow: hidden;
+        }
+
+        .ad {
+            width: 490px;
+            height: 170px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #box img {
+            width: 490px;
+        }
+
+        .ad ol {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+        }
+
+        .ad ol li {
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            border: 1px solid #ccc;
+            text-align: center;
+            background: #fff;
+            float: left;
+            margin-right: 10px;
+            cursor: pointer;
+            _display: inline;
+        }
+
+        .ad ol li.current {
+            background: yellow;
+        }
+
+        .ad ul li {
+            float: left;
+        }
+
+        .ad ul {
+            position: absolute;
+            top: 0;
+            width: 2940px;
+        }
+
+        .ad ul li.current {
+            display: block;
+        }
+
+        #arr {
+            /*display: none;*/
+        }
+
+        #arr span {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            left: 5px;
+            top: 50%;
+            margin-top: -20px;
+            background: #000;
+            cursor: pointer;
+            line-height: 40px;
+            text-align: center;
+            font-weight: bold;
+            font-family: '黑体';
+            font-size: 30px;
+            color: #fff;
+            opacity: 0.3;
+            border: 1px solid #fff;
+        }
+
+        #arr #right {
+            right: 5px;
+            left: auto;
+        }
+    </style>
+    <script>
+        window.onload=function(){
+
+            var btn=document.getElementById("arr");
+            var btn1=btn.firstElementChild||btn.firstChild;
+            var btn2=btn.lastElementChild||btn.lastChild;
+            var div=document.getElementById("ad");
+            var ul=document.getElementById("imgs");
+            var imgWidth=div.offsetWidth;
+            console.log(imgWidth);
+
+            //左边按钮
+            var num=0;
+            btn1.onclick=function(){
+                num--;
+                if(num==-1){  //num=0时是顶端位置
+                    alert("已经是第一张了");
+                    num=0; //如果不清零，下次执行时，会从-1开始执行
+                    return;
+                }
+                var width=num*imgWidth;
+                animate(ul,-width);
+
+            }
+
+            btn2.onclick=function(){
+                num++;
+                if(num==5){ //4的话已经是最后一张了
+                    alert("已经是最后一张了");
+                    num=4;
+                    return;
+                }
+                var width=num*imgWidth;
+                animate(ul,-width);
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            //匀速动画封装
+            function animate(ele,target) {
+                //要用定时器，先清除定时器;
+                clearInterval(ele.timer);
+                //设置定时器;
+                ele.timer = setInterval(function () {
+                    //1.获取步长;
+                    var step = target > ele.offsetLeft? 10: -10;
+                    //2.赋值
+                    ele.style.left = ele.offsetLeft + step + "px";
+                    //3.目标位置和当前位置不足或者等于一个步长就清除定时器i;
+                    if(Math.abs(target-ele.offsetLeft) <= Math.abs(step)){
+                        //清除定时器之前，直接设置目标位置
+                        ele.style.left = target+"px";
+                        clearInterval(ele.timer);
+                    }
+                },10);
+            }
+        }
+    </script>
+</head>
+<body>
+<div id="box" class="all">
+    <div class="ad" id="ad">
+        <ul id="imgs">
+            <li><img src="images/1.jpg"/></li>
+            <li><img src="images/2.jpg"/></li>
+            <li><img src="images/3.jpg"/></li>
+            <li><img src="images/4.jpg"/></li>
+            <li><img src="images/5.jpg"/></li>
+        </ul>
+    </div>
+    <div id="arr">
+        <span id="left"><</span>
+        <span id="right">></span>
+    </div>
+</div>
+</body>
+</html>
